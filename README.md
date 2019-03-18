@@ -12,36 +12,36 @@ Based on Emily S. C Ching, P. H. Tam, "[Effects of hidden nodes on the reconstru
 
 
 # Understanding the files
-1. `Demo.ipynb`
+1. `Demo.ipynb`<br>
    Jupyter notebook to demonstrate network reconstruction
 
-2. `adjacency.py`
+2. `adjacency.py`<br>
    Generate unweighted bi-directional network
 
-3. `assign_weights.py`
+3. `assign_weights.py`<br>
    Generate weighted bi-directional network from adjacency matrix
 
-4. `choose_nodes.py`
+4. `choose_nodes.py`<br>
    Functions to select measured nodes and hidden nodes
 
-5. `compare_results.py`
+5. `compare_results.py`<br>
    Evaluate the reconstruction performance by comparing
    the actual adjacency matrix with the reconstructed adjacency matrix
 
-6.  `dynamics_tools.py`
+6.  `dynamics_tools.py`<br>
     Tools required for simulating the networked dynamics
 
-7. `network_tools.py`
+7. `network_tools.py`<br>
    Tools required for studying networks
 
-8. `reconstructions.py`
+8. `reconstructions.py`<br>
    Functions to reconstruct an adjacency matrix given the data
 
-9. `simulations.py`
+9. `simulations.py`<br>
    Generate dynamics of the nodes by solving the coupled SDEs
    and obtain the covariance matrix
 
-10. `tools.py`
+10. `tools.py`<br>
     General tools for matrix analysis
 
 
