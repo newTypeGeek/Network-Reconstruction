@@ -14,6 +14,8 @@ Based on Emily S. C Ching, P. H. Tam, "[Effects of hidden nodes on the reconstru
 # Understanding the files
 1. `Demo.ipynb`<br>
    Jupyter notebook to demonstrate network reconstruction
+   It is not intended to replicate all the results in the paper, but as an simple
+   demonstration of the approach using Python
 
 2. `adjacency.py`<br>
    Generate unweighted bi-directional network
