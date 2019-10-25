@@ -47,6 +47,11 @@ Based on Emily S. C Ching, P. H. Tam, "[Effects of hidden nodes on the reconstru
     General tools for matrix analysis
 
 
+# TODO
+1. Organize the files and functions properly for readability and extensibility
+2. Extend the `Demo.ipynb` with more details
+
+
 # Citation
 ```
 @article{PhysRevE.98.062318,
