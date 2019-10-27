@@ -85,7 +85,6 @@ def kmeans(data, k=2):
 
     return A_reco
 
-
 ################################################
 #  You can add other clustering methods below  #
 #  by following the kmeans example             #
