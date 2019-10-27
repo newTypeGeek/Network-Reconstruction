@@ -8,7 +8,6 @@ import numpy as np
 import tools
 from sklearn.cluster import KMeans
 
-
 def kmeans(data, k=2):
     '''
     Cluster the data using k-means clustering
@@ -25,7 +24,6 @@ def kmeans(data, k=2):
     Returns:
     1. A_reco:      Reconstructed adjacency matrix
     '''
-
     assert type(data) == np.ndarray, "Input data must be of type 'numpy.ndarray'"
     assert data.size > 0, "Input data must not be empty"
     assert data.dtype == int or data.dtype == float, "Input data must be of dtype 'int' or 'float'"
@@ -72,10 +70,8 @@ def kmeans(data, k=2):
     col_conn_triu = col[reco_indices != ucon_id].astype("int")
 
 
-
-    # Initialize the reconstructed adjacency matrix
-    # with zero elements
-    A_reco = np.zeros((n,n))
+    # Initialize the reconstructed adjacency matrix with zero elements
+    A_reco = np.zeros((n_node, n_node))
 
     # Assign links according to row_conn, and col_conn
     # NOTE: only upper triangle elements are assigned
@@ -94,6 +90,3 @@ def kmeans(data, k=2):
 #  You can add other clustering methods below  #
 #  by following the kmeans example             #
 ################################################
-
-
-
