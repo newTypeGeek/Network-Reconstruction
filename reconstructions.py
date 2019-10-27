@@ -9,62 +9,6 @@ import tools
 from sklearn.cluster import KMeans
 
 
-def reconstruct(n, row_conn_triu, col_conn_triu):
-    '''
-    Reconstruct the symmetric adjacency matrix
-
-    Arguments:
-    1. n:           Number of measured node
-    2. row_conn_triu:    Upper triangle row indices that connects to col_conn indices
-    3. col_conn_triu:    Upper triangle column indices that connects to row_conn indices
-
-    Returns:
-    1. A_reco:      Reconstructed adjacency matrix
-
-    '''
-    assert type(n) == int and n > 0, "Number of measured node must be positive integer"
-    
-    assert type(row_conn_triu) == np.ndarray, "row_conn_triu must be of type 'np.ndarray'"
-    assert row_conn_triu.size > 0, "row_conn_triu must not be empty"
-    assert row_conn_triu.dtype == int, "row_conn_triu must of dtype 'int'"
-    size = row_conn_triu.shape
-    assert len(size) == 1, "row_conn_triu must be of 1D shape"
-    assert (row_conn_triu >= 0).all() == True, "row_conn_triu elements must be non-negative integers"
-
-    assert type(col_conn_triu) == np.ndarray, "col_conn_triu must be of type 'np.ndarray'"
-    assert col_conn_triu.size > 0, "col_conn_triu must not be empty"
-    assert col_conn_triu.dtype == int, "col_conn_triu must of dtype 'int'"
-    size = col_conn_triu.shape
-    assert len(size) == 1, "col_conn_triu must be of 1D shape"
-    assert (col_conn_triu >= 0).all() == True, "col_conn_triu elements must be non-negative integers"
-
-    assert len(np.unique(np.concatenate((row_conn_triu, col_conn_triu)))) == n, "The number of unique node indices in row_conn_triu + col_conn_triu does not match the number of measured node"
-
-
-
-    # Initialize the reconstructed adjacency matrix
-    # with zero elements
-    A_reco = np.zeros((n,n))
-
-    # Assign links according to row_conn, and col_conn
-    # NOTE: only upper triangle elements are assigned
-    #       (see off_diag_upper() in tools.py)
-    A_reco[row_conn_triu, col_conn_triu] = 1
-
-    # Symmetrize the reconstructed adjacency matrix
-    A_reco = A_reco + A_reco.T
-
-    A_reco = A_reco.astype('int')
-
-    return A_reco
-
-
-
-
-
-
-
-
 def kmeans(data, k=2):
     '''
     Cluster the data using k-means clustering
@@ -79,8 +23,7 @@ def kmeans(data, k=2):
 
     
     Returns:
-    1. row_conn_triu:    Upper triangle row indices that connects to col_conn indices
-    2. col_conn_triu:    Upper triangle column indices that connects to row_conn indices
+    1. A_reco:      Reconstructed adjacency matrix
     '''
 
     assert type(data) == np.ndarray, "Input data must be of type 'numpy.ndarray'"
@@ -113,6 +56,13 @@ def kmeans(data, k=2):
     ucon_id = np.argmin(abs(centroids))
 
     # Recover the number of nodes from number of data points
+    # NOTE: we assume n_data = n_node * (n_node - 1) / 2
+    #       If that is the case, solving qudratic equation
+    #       gives the following expression for n_node and
+    #       it must be an integer.
+    #
+    #       However, this assumption might break depending
+    #       on the user input and we have not guard this case
     n_data = data.shape[0]
     n_node = int(0.5*(1 + np.sqrt(1 + 8*n_data)))
     row, col = tools.index_recover(n_node)
@@ -122,8 +72,22 @@ def kmeans(data, k=2):
     col_conn_triu = col[reco_indices != ucon_id].astype("int")
 
 
-    return row_conn_triu, col_conn_triu
 
+    # Initialize the reconstructed adjacency matrix
+    # with zero elements
+    A_reco = np.zeros((n,n))
+
+    # Assign links according to row_conn, and col_conn
+    # NOTE: only upper triangle elements are assigned
+    #       (see off_diag_upper() in tools.py)
+    A_reco[row_conn_triu, col_conn_triu] = 1
+
+    # Symmetrize the reconstructed adjacency matrix
+    A_reco = A_reco + A_reco.T
+
+    A_reco = A_reco.astype('int')
+
+    return A_reco
 
 
 ################################################
