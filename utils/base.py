@@ -87,7 +87,7 @@ def off_diag_upper(M):
     assert M.dtype == int or M.dtype == float, "The input matrix must be of dtype 'int' or 'float'"
     assert np.isfinite(M).all() == True, "The input matrix elements must be finite real numbers" 
     size = M.shape
-    assert len(size), "The input matrix must be 2D shape"
+    assert len(size) == 2, "The input matrix must be 2D shape"
     assert size[0] == size[1], "The input matrix must be a square matrix"
    
     
@@ -100,7 +100,7 @@ def off_diag_upper(M):
 
 def index_recover(n):
     '''
-    Recover the original row and colum indices of the
+    Recover the original row and column indices of the
     flatten upper triangle vector using triu method (see off_diag_upper)
 
     Arguments:
@@ -143,7 +143,7 @@ def index_recover(n):
 def matrix_rearrange(M, measure_id, hidden_id):
     '''
     Re-arrange the square matrix according to which nodes
-    are measure nodes / hidden nodes
+    are measured nodes / hidden nodes
 
     Arguments:
     1. M:            The original square matrix M

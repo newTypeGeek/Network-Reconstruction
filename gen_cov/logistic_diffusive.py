@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 
-##########################
-####  simulations.py  ####
-##########################
-
 import numpy as np
 from tqdm.auto import tqdm
-import network_tools
+import os
+import sys
 
-def get_covariance(W, r, sigma, int_dt, sample_dt, sample_start, data_num, get_ts=False):
+ROOT_DIR = os.path.abspath("../")
+sys.path.append(ROOT_DIR)
+from utils import network
+
+
+def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, get_ts=False):
     '''
     Simulate the coupled SDEs with 
       - f(x)   = rx(1-x)
@@ -60,7 +62,7 @@ def get_covariance(W, r, sigma, int_dt, sample_dt, sample_start, data_num, get_t
     # Compute weighted Laplacian matrix
     # This is used for simplifying the computation when
     # the coupling function h(x-y) = y - x
-    L = network_tools.laplacian(W)
+    L = network.laplacian(W)
     
     
     # Sampling time interval
@@ -120,7 +122,3 @@ def get_covariance(W, r, sigma, int_dt, sample_dt, sample_start, data_num, get_t
     return cov, x_ts
 
 
-#########################################################
-# You can add other dynamics for simulation here by     #
-# following the above example.                          #
-#########################################################

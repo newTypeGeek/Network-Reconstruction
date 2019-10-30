@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
 
-##########################
-#### network_tools.py ####
-##########################
+####################
+#### network.py ####
+####################
 
 import numpy as np
-import tools
-import choose_nodes
+import os
+import sys
 
+ROOT_DIR = os.path.abspath("../")
+sys.path.append(ROOT_DIR)
+from utils import base
 
 
 def laplacian(W):
@@ -38,8 +41,6 @@ def laplacian(W):
     L = np.diag(np.sum(W, 1)) - W
     
     return L
-
-
 
 
 
@@ -95,11 +96,11 @@ def hidden_effect(W, measure_id, hidden_id, a=0):
     L = laplacian(W)
 
     # Re-arrange the Laplacian matrix
-    _, _, E, _, Lh = choose_nodes.matrx_rearrange(L)
+    _, _, E, _, Lh = base.matrx_rearrange(L)
 
     # Compute the C matrix
     H = Lh + a * np.identity(num_h)
-    H_inv = tools.inverse(H)
+    H_inv = base.inverse(H)
     C = np.matmul( np.matmul(E, H), E.T )
 
     if np.allclose(C, C.T) == False:

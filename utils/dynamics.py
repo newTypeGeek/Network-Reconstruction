@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 
 
-###########################
-#### dynamics_tools.py ####
-###########################
+#####################
+#### dynamics.py ####
+#####################
 
 import numpy as np
-import tools
-import network_tools
-import choose_nodes
+import os
+import sys
 
+ROOT_DIR = os.path.abspath("../")
+sys.path.append(ROOT_DIR)
+from utils import base
+from utils import network
 
 
 def inverse_covariance(cov, measure_id, hidden_id):
@@ -61,13 +64,13 @@ def inverse_covariance(cov, measure_id, hidden_id):
 
 
     # Compute cov_inv_m
-    cov_inv = tools.inverse(cov)
-    _, cov_inv_m, _, _, _ = tools.matrix_rearrange(cov_inv, measure_id, hidden_id)
+    cov_inv = base.inverse(cov)
+    _, cov_inv_m, _, _, _ = base.matrix_rearrange(cov_inv, measure_id, hidden_id)
 
 
     # Compute cov_m_inv
-    _, cov_m, _, _, _ = tools.matrix_rearrange(cov, measure_id, hidden_id)
-    cov_m_inv = tools.inverse(cov_m)
+    _, cov_m, _, _, _ = base.matrix_rearrange(cov, measure_id, hidden_id)
+    cov_m_inv = base.inverse(cov_m)
 
     return cov_inv_m, cov_m_inv
 
@@ -108,10 +111,10 @@ def stationary_check(W, tol=1e-9):
 
 
     # Construct the weighted Laplacian matrix
-    L = network_tools.laplacian(W)
+    L = network.laplacian(W)
 
     # Compute the eigenvalues of L
-    eig_vals = tools.eigen_values(L)
+    eig_vals = base.eigen_values(L)
 
 
     # Check if there are negative eigenvalues

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-############################
-##### assign_weights.py ####
-############################
-
 import numpy as np
 
 def gaussian(A, mean, std):
@@ -58,10 +54,4 @@ def gaussian(A, mean, std):
 
     return W
 
-
-
-###################################################################
-# You can add other methods to assign weights to a bidirectional  #
-# unweighted network here by following the above example          #
-###################################################################
 

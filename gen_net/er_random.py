@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-######################
-#### adjacency.py ####
-######################
-
 import numpy as np
 
 def er_random(N, p):
@@ -23,12 +19,12 @@ def er_random(N, p):
     assert p >= 0 and p <= 1, "Connection probability must be within 0 to 1 (inclusive)"
    
     if p == 0:
-        print("[WARN] p = 0, a network has no links")
+        print("[WARN] p = 0, the network has no links")
         A = np.zeros((N,N))
         return A
 
     elif p == 1:
-        print("[WARN] p = 1, a network is fully connected")
+        print("[WARN] p = 1, the network is fully connected")
         A = np.ones((N,N))
         return A
 
@@ -51,9 +47,4 @@ def er_random(N, p):
      
         return A
 
-
-############################################################
-# You can add other bidirectional unweighted network       #
-#  generation methods here by following the above example  #
-############################################################
 

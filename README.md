@@ -1,6 +1,9 @@
 # Effect of hidden nodes on the reconstruction on bidirectional networks
 
-Based on Emily S. C Ching, P. H. Tam, "[Effects of hidden nodes on the reconstruction of bidirectional networks](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.98.062318)", Phys. Rev. E 98, 062318 (2018), the network reconstruction method is demonstrated with Python scripts.
+Emily S. C Ching, P. H. Tam, "[Effects of hidden nodes on the reconstruction of bidirectional networks](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.98.062318)", Phys. Rev. E 98, 062318 (2018)<br>
+
+To demonstrate the method used in this journal publication using Python.
+
 
 # Pre-requisite
 1. Python 3
@@ -11,45 +14,31 @@ Based on Emily S. C Ching, P. H. Tam, "[Effects of hidden nodes on the reconstru
 6. tqdm
 
 
-# Understanding the files
+# Project structure
 1. `Demo.ipynb`<br>
    Jupyter notebook to demonstrate network reconstruction
-   It is not intended to replicate all the results in the paper, but as an simple
-   demonstration of the approach using Python
 
-2. `adjacency.py`<br>
-   Generate unweighted bi-directional network
+2. `utils`<br>
+   A package with general tools for computations 
 
-3. `assign_weights.py`<br>
-   Generate weighted bi-directional network from adjacency matrix
+3. `gen_net`<br>
+   A package to generate weighted adjacency matrix from a network model
 
-4. `choose_nodes.py`<br>
-   Functions to select measured nodes and hidden nodes
+4. `gen_cov`<br>
+   A package to generate covariance matrix from a dynamical system given the weighted adjacency matrix
 
-5. `compare_results.py`<br>
-   Evaluate the reconstruction performance by comparing
-   the actual adjacency matrix with the reconstructed adjacency matrix
+5. `choose_nodes.py`<br>
+   A package to select nodes as measured nodes and hidden nodes
 
-6.  `dynamics_tools.py`<br>
-    Tools required for simulating the networked dynamics
+6. `reconstruct.py`<br>
+   A package to reconstruct adjacency matrix from a reconstruction method given the data
 
-7. `network_tools.py`<br>
-   Tools required for studying networks
-
-8. `reconstructions.py`<br>
-   Functions to reconstruct an adjacency matrix given the data
-
-9. `simulations.py`<br>
-   Generate dynamics of the nodes by solving the coupled SDEs
-   and obtain the covariance matrix
-
-10. `tools.py`<br>
-    General tools for matrix analysis
+8. `evaluate.py`<br>
+   A package to evaluate the reconstruction performance
 
 
 # TODO
-1. Organize the files and functions properly for readability and extensibility
-2. Extend the `Demo.ipynb` with more details
+1. Extend the `Demo.ipynb` with more details
 
 
 # Citation
