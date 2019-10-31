@@ -8,29 +8,35 @@ import sys
 ROOT_DIR = os.path.abspath("../")
 sys.path.append(ROOT_DIR)
 from utils import network
+     
 
 
-def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, get_ts=False):
+
+def fhn_diffusive(W, epsilon, alpha, sigma, int_dt, sample_dt, sample_start, data_num, get_ts=False):
     '''
     Simulate the coupled SDEs with 
-      - f(x)   = rx(1-x)
-      - h(x[i] - x[j]) = x[j] - x[i]
+      - FitzHugh-Nagumo (FHN) dynamics with parameters (epsilon, alpha)
+      - diffusive coupling function along the x state variable only
+      - Only the x state is injected with white noise
 
     and obtain the covariance matrix of the whole network.
+    NOTE: only the x state is used for covariance computation.
 
     Arguments:
     1. W:               Weighted adjacency matrix of the whole network
-    2. r:               Parameter of f(x)
-    3. sigma:           Noise strength (standard deviation of Gaussian distribution)
-    4. int_dt:          Integration time step
-    5. sample_dt:       Sampling time step
-    6, start_sample:    Time step to start sampling
-    7. data_num:        Total number of sampled data for covariance matrix computation
-    8. get_ts:          To sample time series of the first node or not (default: False)
+    2. epsilon:         FHN parameter
+    3. alpha:           FHN parameter
+    5. sigma:           Noise strength (standard deviation of Gaussian distribution)
+    6. int_dt:          Integration time step
+    7. sample_dt:       Sampling time step
+    8, start_sample:    Time step to start sampling
+    9. data_num:        Total number of sampled data for covariance matrix computation
+    10. get_ts:         To sample time series of the first node or not (default: False)
 
     Returns:
     1. cov:        Covariance matrix of the whole network
-    2. x_ts:       Sampled time series of the first node
+    2. x_ts:       Sampled time series of the first node of the x-state
+    3. y_ts:       Sampled time series of the first node of the y-state
     '''
    
     assert type(W) == np.ndarray, "The weighted adjacency matrix must be of type 'numpy.ndarray'"
@@ -43,7 +49,8 @@ def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, g
     assert (np.diag(W) == 0).all() == True, "The weighted adjacency matrix must not have self-loop"
 
  
-    assert (type(r) == int or type(r) == float) and np.isfinite(r) == True and r > 0, "Parameter r must be a positive real number"
+    assert (type(epsilon) == int or type(epsilon) == float) and np.isfinite(epsilon) == True, "Parameter epsilon must be a real number"
+    assert (type(alpha) == int or type(alpha) == float) and np.isfinite(alpha) == True, "Parameter alpha must be a real number"
 
     assert (type(sigma) == int or type(sigma) == float) and np.isfinite(sigma) == True and sigma > 0, "Noise standard deviation must be a positive real number"
 
@@ -58,13 +65,12 @@ def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, g
     assert type(get_ts) == bool, "get_ts must be boolean"
 
 
-
     # Compute weighted Laplacian matrix
     # This is used for simplifying the computation when
     # the coupling function h(x-y) = y - x
     L = network.laplacian(W)
-    
-    
+
+
     # Sampling time interval
     sample_inter = int(sample_dt/int_dt)
     
@@ -75,7 +81,9 @@ def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, g
     # Initialize the current state of N nodes
     N = size[0]
     x = np.random.normal(loc=0.5, scale=0.01, size=(N,))
+    y = np.random.normal(loc=0.5, scale=0.01, size=(N,))
     
+
     # Initialize the 1st and 2nd moment matrix of the state vector x
     # They are used to compute the covariance matrix
     m_01 = np.zeros((N,))
@@ -85,21 +93,28 @@ def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, g
     # Initialize the sampled time series of the first node
     if get_ts == True:
         x_ts = np.zeros((int(T/sample_inter),))
+        y_ts = np.zeros((int(T/sample_inter),))
         i = 0
     else:
         x_ts = None
-   
+        y_ts = None
 
+   
     # Solve the coupled SDEs using Euler-Maruyama method
     for t in tqdm(range(T)):
         eta = np.random.normal(size=(N,))
-        x += r*x*(1-x)*int_dt - np.matmul(L, x)*int_dt + sigma*np.sqrt(int_dt)*eta
     
+        x_old = x
+        x += ( (x - x*x*x/3 - y)/epsilon - np.matmul(L, x) ) * int_dt + sigma*np.sqrt(int_dt)*eta
+        y += (x_old + alpha) * int_dt
 
         # Stop the program if there is at least one node blows up
         if np.isnan(x).any() == True or np.isinf(x).any() == True:
             assert False, "The dynamics blows up!"
-    
+
+        elif np.isnan(y).any() == True or np.isinf(y).any() == True:
+            assert False, "The dynamics blows up!"
+
 
         # Sample the node states
         if t % sample_inter == 0:
@@ -107,6 +122,7 @@ def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, g
             # Sample dynamics of the first node
             if get_ts == True:
                 x_ts[i] = x[0]
+                y_ts[i] = x[0]
                 i += 1
             
             # Sample 1st and 2nd moment
@@ -119,6 +135,6 @@ def logistic_diffusive(W, r, sigma, int_dt, sample_dt, sample_start, data_num, g
     # Compute the covariance matrix of the whole network 
     cov = m_02 - np.outer(m_01, m_01) 
     
-    return cov, x_ts
+    return cov, x_ts, y_ts
 
 
