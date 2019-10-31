@@ -9,7 +9,10 @@ Weighted adjacency matrix, generated from `gen_net` package, is required as an i
 1. `er_random.py`
     Generate an unweighted bi-directional Erdős–Rényi (ER) random network
 
-2. `gaussian.py`
+2. `ba_scalefree.py`
+    Generate an unweighted bi-directional Barabási–Albert (BA) scale-free network
+
+3. `gaussian.py`
     Assign Gaussian distributed weights to an unweighted bi-directional network
 
 # Development
