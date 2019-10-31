@@ -27,13 +27,13 @@ To demonstrate the method used in this journal publication using Python.
 4. `gen_cov`<br>
    A package to generate covariance matrix from a dynamical system given the weighted adjacency matrix
 
-5. `choose_nodes.py`<br>
+5. `choose_nodes`<br>
    A package to select nodes as measured nodes and hidden nodes
 
-6. `reconstruct.py`<br>
+6. `reconstruct`<br>
    A package to reconstruct adjacency matrix from a reconstruction method given the data
 
-8. `evaluate.py`<br>
+8. `evaluate`<br>
    A package to evaluate the reconstruction performance
 
 
