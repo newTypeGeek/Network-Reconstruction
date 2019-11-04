@@ -1,9 +1,9 @@
 # Select nodes as measured nodes and hidden nodes
 This `choose_nodes` package consists of different methods to select nodes as measured nodes and hidden nodes.
 
-1. Each python file consists of one function only
-2. The function name inside the file is same as its file name
-3. Each function outputs two numpy arrays of node indices (`meausre_id` and `hidden_id`)  
+1. Each python file consists of one node selection scheme only
+2. The node selection scheme name inside is same as its file name
+3. Each scheme outputs two numpy arrays of node indices (`meausre_id` and `hidden_id`)  
 
 
 # Definition

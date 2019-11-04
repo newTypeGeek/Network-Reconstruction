@@ -20,42 +20,38 @@ def kmeans(data, n, k=2):
                     ii.     off-diagonal elements of cov_m_inv
                     (see inverse_covariance() in utils/dynamics.py)
 
-    2. n:           Number of nodes correspond to the data 
+    2. n:           Number of nodes correspond to the data
 
     2. k:           Number of clusters (default: 2)
 
-    
+
     Returns:
     1. A_reco:      Reconstructed adjacency matrix
     '''
-    assert type(data) == np.ndarray, "Input data must be of type 'numpy.ndarray'"
-    assert data.size > 0, "Input data must not be empty"
-    assert data.dtype == int or data.dtype == float, "Input data must be of dtype 'int' or 'float'"
-    assert np.isfinite(data).all() == True, "Input data elements must be real numbers"
-
+    assert type(data) == np.ndarray, "data must be of type 'numpy.ndarray'"
+    assert data.size > 0, "data must not be empty"
+    assert data.dtype == int or data.dtype == float, "data must be of dtype 'int' or 'float'"
+    assert np.isfinite(data).all(), "data elements must be real numbers"
     size = data.shape
-    assert len(size) == 1, "Input data must be 1D shape"
-
+    assert len(size) == 1, "data must be 1D shape"
     n_data = size[0]
-    assert n_data > 1, "Input data must have at least two elements for clustering"
-    
+    assert n_data > 1, "data must have at least two elements for clustering"
+
     # Solution to quadratic equation: n_data = n_node * (n_node - 1) / 2
     n_node = 0.5 * (1 + np.sqrt(1 + 8*n_data))
-    assert n_node.is_integer() == True, "The data points are not taken from upper/lower off-diagonal elements"
-    assert int(n_node) == n, "The number of data points and the number of nodes n are inconsistent"
-
-    assert type(k) == int and k > 1, "Number of cluster must be positive integer and not less than 2"
+    assert n_node.is_integer(), "data are not taken from upper/lower off-diagonal elements"
+    assert int(n_node) == n, "Number of elements in data is inconsistent with n"
+    assert type(k) == int and k > 1, "k must be a positive integer and not less than 2"
 
     n_data = data.shape[0]
     n_node = int(0.5*(1 + np.sqrt(1 + 8*n_data)))
 
-    
     # Convert data to a shape for clustering
     data = data.reshape(-1, 1)
 
     # Create k-means clustering object
     kmeans = KMeans(n_clusters=k, random_state=29)
-    
+
     # Perform k-means clustering on the data
     kmeans.fit(data)
 
@@ -76,7 +72,6 @@ def kmeans(data, n, k=2):
     row_conn_triu = row[reco_indices != ucon_id].astype("int")
     col_conn_triu = col[reco_indices != ucon_id].astype("int")
 
-
     # Initialize the reconstructed adjacency matrix with zero elements
     A_reco = np.zeros((n, n))
 
@@ -91,4 +86,3 @@ def kmeans(data, n, k=2):
     A_reco = A_reco.astype('int')
 
     return A_reco
-
