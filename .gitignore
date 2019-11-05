@@ -3,3 +3,6 @@
 
 # Ignore pycache directories
 __pycache__
+
+# Ignore ipython checkpoints (Jupyter notebook)
+.ipynb_checkpoints

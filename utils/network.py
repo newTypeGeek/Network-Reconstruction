@@ -86,7 +86,8 @@ def hidden_effect(W, measure_id, hidden_id, a=0):
     L = laplacian(W)
 
     # Re-arrange the Laplacian matrix
-    _, _, E, _, Lh = base.matrx_rearrange(L)
+    E = base.block_off_up(L, measure_id, hidden_id)
+    Lh = base.block_diag_low(L, hidden_id)
 
     # Compute the C matrix
     H = Lh + a * np.identity(num_h)
