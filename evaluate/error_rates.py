@@ -38,14 +38,15 @@ def error_rates(A, A_reco):
     assert type(A_reco) == np.ndarray, "A_reco must be of type 'numpy.ndarray'"
     assert A_reco.size > 0, "A_reco must not be empty"
     assert A_reco.dtype == int, "Elements in A_reco must be of dtype 'int'"
-    size = A_reco.shape
-    assert len(size) == 2, "A_reco must be of 2D shape"
-    assert size[0] == size[1], "A_reco must be a square matrix"
+    size_reco = A_reco.shape
+    assert len(size_reco) == 2, "A_reco must be of 2D shape"
+    assert size_reco[0] == size_reco[1], "A_reco must be a square matrix"
     assert np.allclose(A_reco, A_reco.T), "A_reco must be symmetric"
     assert (np.diag(A_reco) == 0).all(), "Diagonal elements of A_reco must all be zero"
     assert np.min(A_reco) == 0, "Elements in A_reco must be either 0 or 1"
     assert np.max(A_reco) <= 1, "Elements in A must be either 0 or 1"
     assert np.max(A_reco) == 1, "All elements in A_reco are zero"
+
     assert size == size_reco, "A and A_reco must have the same shape"
 
     # Extract only the off-diagonl (upper triangle) elements to avoid double counting
