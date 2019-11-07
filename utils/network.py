@@ -92,9 +92,9 @@ def hidden_effect(W, measure_id, hidden_id, a=0):
     # Compute the C matrix
     H = Lh + a * np.identity(num_h)
     H_inv = base.inverse(H)
-    C = np.matmul(np.matmul(E, H), E.T)
+    C = np.matmul(np.matmul(E, H_inv), E.T)
 
     if not np.allclose(C, C.T):
-        print("The computed C matrix is not symmetric")
+        print("[WARN] The computed C matrix is not symmetric")
 
     return C
