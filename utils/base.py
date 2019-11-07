@@ -255,6 +255,8 @@ def block_off_up(M, measure_id, hidden_id):
     all_id = np.unique(np.concatenate((measure_id, hidden_id)))
     assert len(all_id) == size[0], "mesure_id and hidden_id contain common elements"
 
+    B = np.zeros((n_m, n_h))
+
     for i in range(n_m):
         for j in range(n_h):
             B[i, j] = M[measure_id[i], hidden_id[j]]
@@ -305,6 +307,8 @@ def block_off_low(M, measure_id, hidden_id):
 
     all_id = np.unique(np.concatenate((measure_id, hidden_id)))
     assert len(all_id) == size[0], "mesure_id and hidden_id contain common elements"
+
+    B = np.zeros((n_h, n_m))
 
     for i in range(n_h):
         for j in range(n_m):
