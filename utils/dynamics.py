@@ -60,10 +60,10 @@ def inverse_covariance(cov, measure_id, hidden_id):
 
     # Compute cov_inv_m
     cov_inv = base.inverse(cov)
-    _, cov_inv_m, _, _, _ = base.matrix_rearrange(cov_inv, measure_id, hidden_id)
+    cov_inv_m = base.block_diag_up(cov_inv, measure_id)
 
     # Compute cov_m_inv
-    _, cov_m, _, _, _ = base.matrix_rearrange(cov, measure_id, hidden_id)
+    cov_m = base.block_diag_up(cov, measure_id)
     cov_m_inv = base.inverse(cov_m)
 
     return cov_inv_m, cov_m_inv
