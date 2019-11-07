@@ -1,0 +1,5 @@
+jupyterlab
+numpy
+sklearn
+matplotlib
+tqdm

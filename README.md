@@ -6,12 +6,16 @@ To demonstrate the method used in this journal publication using Python.
 
 
 # Pre-requisite
-1. Python 3
+1. Python 3 intepreter 
 2. Jupyter Notebook
 3. numpy
 4. sklearn
 5. matplotlib
 6. tqdm
+
+```
+pip -r install requirements.txt
+```
 
 
 # Project structure
