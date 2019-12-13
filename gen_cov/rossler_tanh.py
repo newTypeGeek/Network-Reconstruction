@@ -29,7 +29,7 @@ def tanh_couple(W, state, N):
             if i == j:
                 continue
 
-            interaction[i] = W[i, j] * np.tanh(state[j] - state[i])
+            interaction[i] += W[i, j] * np.tanh(state[j] - state[i])
 
     return interaction
 
