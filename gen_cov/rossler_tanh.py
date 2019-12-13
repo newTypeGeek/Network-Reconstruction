@@ -114,24 +114,14 @@ def rossler_tanh(W, c1, c2, c3, sigma, int_dt, sample_dt, sample_start, data_num
     for t in tqdm(range(T)):
         eta = np.random.normal(size=(N,))
 
-        interaction_x=tanh_couple(W, x, N)
-        interaction_y=tanh_couple(W, y, N)
-        interaction_z=tanh_couple(W, z, N)
+        interaction_x = tanh_couple(W, x, N)
+        interaction_y = tanh_couple(W, y, N)
+        interaction_z = tanh_couple(W, z, N)
 
         x_old = x
         x += (-y - z + interaction_x) * int_dt + sigma*np.sqrt(int_dt)*eta
         y += (x_old + c1*y + interaction_y) * int_dt
         z += (c2 + z*(x_old - c3) + interaction_z) * int_dt
-
-        # Stop the program if there is at least one node blows up
-        if np.isnan(x).any() or np.isinf(x).any():
-            assert False, "The dynamics blows up!"
-
-        elif np.isnan(y).any() or np.isinf(y).any():
-            assert False, "The dynamics blows up!"
-
-        elif np.isnan(z).any() or np.isinf(z).any():
-            assert False, "The dynamics blows up!"
 
         # Sample the node states
         if t % sample_inter == 0:

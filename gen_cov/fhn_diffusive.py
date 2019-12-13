@@ -93,13 +93,6 @@ def fhn_diffusive(W, epsilon, alpha, sigma, int_dt, sample_dt, sample_start, dat
         x += ((x - x*x*x/3 - y)/epsilon - np.matmul(L, x)) * int_dt + sigma*np.sqrt(int_dt)*eta
         y += (x_old + alpha) * int_dt
 
-        # Stop the program if there is at least one node blows up
-        if np.isnan(x).any() or np.isinf(x).any():
-            assert False, "The dynamics blows up!"
-
-        elif np.isnan(y).any() or np.isinf(y).any():
-            assert False, "The dynamics blows up!"
-
         # Sample the node states
         if t % sample_inter == 0:
 
