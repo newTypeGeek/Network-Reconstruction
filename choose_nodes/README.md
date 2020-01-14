@@ -13,10 +13,10 @@ This `choose_nodes` package consists of different methods to select nodes as mea
 
 # Scheme of node selection
 1. `lazy.py`<br>
-   Select the first $n$ nodes as measured nodes
+   Select the first `n` nodes as measured nodes
 
 2. `random.py`<br>
-   Randomly select $n$ nodes as measured nodes
+   Randomly select `n` nodes as measured nodes
 
 
 # Development
