@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from tqdm.auto import tqdm
+from tqdm import tqdm
 
 
 def tanh_couple(W, state, N):
