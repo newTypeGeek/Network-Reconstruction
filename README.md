@@ -40,6 +40,9 @@ pip -r install requirements.txt
 8. `evaluate`<br>
    A package to evaluate the reconstruction performance
 
+9. `plots`<br>
+   A package to plot figures
+
 
 # Dynamics
 ![Alt text](https://github.com/newTypeGeek/Network-Reconstruction/blob/master/logistic_diffusive_ts.png?raw=true "Title")
